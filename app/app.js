@@ -13,7 +13,6 @@ import 'normalize.css/normalize.css';
 import reducers from './reducers';
 
 import App from './containers/App';
-import Test from './containers/Test';
 import NotFound from './containers/NotFound';
 
 const font = new FontFaceObserver('Open Sans', {});
@@ -30,7 +29,6 @@ ReactDOM.render((
   <Provider store={store}>
     <Router history={history}>
       <Route path="/" component={App} />
-      <Route path="/test" component={Test} />
       <Route path="*" component={NotFound} />
     </Router>
   </Provider>
