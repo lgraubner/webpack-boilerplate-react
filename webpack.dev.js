@@ -41,11 +41,15 @@ const webpackConfig = {
         loaders: ['style-loader', 'css-loader?modules&localIdentName=[local]___[hash:base64:5]'],
       },
       {
-        test: /\.(png|jpg|jpeg|gif)(\?.*)?$/,
+        test: /\.(png|jpe?g|gif)$/,
         loaders: [
           'file-loader',
           'image-webpack?{optimizationLevel: 7, interlaced: false, pngquant:{quality: "65-90", speed: 4}, mozjpeg: {quality: 65}}',
         ],
+      },
+      {
+        test: /\.svg$/,
+        loader: 'file-loader',
       },
       {
         test: /\.html$/,
