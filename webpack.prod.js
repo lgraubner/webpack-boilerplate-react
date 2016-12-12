@@ -38,10 +38,11 @@ const webpackConfig = {
         loader: ExtractTextPlugin.extract('style-loader', 'css-loader?modules!postcss-loader'),
       },
       {
-        test: /\.(png|jpg|jpeg|gif)(\?.*)?$/,
+        test: /.*\.(gif|png|jpe?g|svg)$/i,
         loaders: [
-          'file-loader',
-          'image-webpack?{optimizationLevel: 7, interlaced: false, pngquant:{quality: "65-90", speed: 4}, mozjpeg: {quality: 65}}',
+          'url-loader?limit=20000',
+          'file-loader?hash=sha512&digest=hex&name=[hash].[ext]',
+          'image-webpack-loader?{optimizationLevel: 7, interlaced: false, pngquant:{quality: "65-90", speed: 4}, mozjpeg: {quality: 65}}',
         ],
       },
       {
