@@ -18,14 +18,14 @@ const webpackConfig = {
   module: {
     preLoaders: [
       {
-        test: /\.js?$/,
+        test: /\.jsx?$/,
         exclude: /(node_modules)/,
         loader: 'eslint-loader',
       },
     ],
     loaders: [
       {
-        test: /\.js$/,
+        test: /\.jsx?$/,
         exclude: /node_modules/,
         loader: 'babel-loader',
         query: {
@@ -51,7 +51,10 @@ const webpackConfig = {
     ],
   },
   resolve: {
-    root: ['app', 'node_modules'],
+    root: [
+      path.resolve('node_modules'),
+      path.resolve('app'),
+    ],
     extensions: ['', '.js', '.jsx'],
     modulesDirectories: [
       'node_modules',

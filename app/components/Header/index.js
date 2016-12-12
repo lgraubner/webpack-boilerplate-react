@@ -1,9 +1,11 @@
 import React from 'react';
 
+import styles from './styles.css';
+
 const Header = () => (
-  <div className="header">
+  <header className={styles.header}>
     <h1>Hello World</h1>
-  </div>
+  </header>
 );
 
 export default Header;

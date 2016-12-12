@@ -12,7 +12,7 @@ import 'normalize.css/normalize.css';
 
 import reducers from './reducers';
 
-import App from './containers/App';
+import Home from './containers/Home';
 import NotFound from './containers/NotFound';
 
 const font = new FontFaceObserver('Open Sans', {});
@@ -28,7 +28,7 @@ const history = syncHistoryWithStore(browserHistory, store);
 ReactDOM.render((
   <Provider store={store}>
     <Router history={history}>
-      <Route path="/" component={App} />
+      <Route path="/" component={Home} />
       <Route path="*" component={NotFound} />
     </Router>
   </Provider>

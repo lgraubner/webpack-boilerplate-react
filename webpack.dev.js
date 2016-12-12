@@ -5,10 +5,11 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 const entry = path.join(process.cwd(), 'app/app.js');
 const buildFolder = path.resolve(__dirname, 'dist');
+const port = 4080;
 
 const webpackConfig = {
   entry: [
-    'webpack-dev-server/client?http://localhost:4080',
+    `webpack-dev-server/client?http://localhost:${port}`,
     'webpack/hot/only-dev-server',
     entry,
   ],
@@ -20,14 +21,14 @@ const webpackConfig = {
   module: {
     preLoaders: [
       {
-        test: /\.js$/,
+        test: /\.jsx?$/,
         exclude: /node_modules/,
         loader: 'eslint-loader',
       },
     ],
     loaders: [
       {
-        test: /\.js$/,
+        test: /\.jsx?$/,
         exclude: /node_modules/,
         loader: 'babel-loader',
         query: {
@@ -99,7 +100,7 @@ const webpackConfig = {
     hot: true,
     contentBase: buildFolder,
     publicPath: '/',
-    port: 4080,
+    port,
   },
 };
 

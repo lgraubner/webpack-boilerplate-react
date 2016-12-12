@@ -1,12 +1,11 @@
 import React, { PropTypes } from 'react';
 import Helmet from 'react-helmet';
-import { Link } from 'react-router';
 
 import Header from 'components/Header';
 
 import styles from './styles.css';
 
-const App = () => (
+const Base = ({ children }) => (
   <div className={styles.app}>
     <Helmet
       titleTemplate="%s - Tierpiraten"
@@ -19,12 +18,12 @@ const App = () => (
       ]}
     />
     <Header />
-    <Link to="/testa">Test</Link>
+    {children}
   </div>
 );
 
-App.propTypes = {
+Base.propTypes = {
   children: PropTypes.node,
 };
 
-export default App;
+export default Base;
