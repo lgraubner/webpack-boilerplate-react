@@ -96,7 +96,7 @@ const webpackConfig = {
     }),
   ],
   target: 'web',
-  devTool: 'cheap-module-source-map',
+  devtool: '#cheap-module-source-map',
 };
 
 module.exports = webpackConfig;

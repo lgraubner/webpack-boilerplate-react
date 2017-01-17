@@ -94,7 +94,7 @@ const webpackConfig = {
     failOnError: true,
   },
   target: 'web',
-  devTool: 'inline-source-map',
+  devtool: '#inline-source-map',
   devServer: {
     hot: true,
     contentBase: buildFolder,
