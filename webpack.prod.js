@@ -1,48 +1,100 @@
+/* eslint import/no-extraneous-dependencies:0 */
 const webpack = require('webpack');
 const path = require('path');
 const CleanPlugin = require('clean-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
-const autoprefixer = require('autoprefixer');
+const cssnano = require('cssnano');
 
-const entry = path.join(process.cwd(), 'app/app.js');
-const buildFolder = path.resolve(__dirname, 'dist');
+const entry = path.join(process.cwd(), 'src/app.jsx');
+const outputPath = path.resolve(__dirname, 'dist');
 
 const webpackConfig = {
   entry,
   output: {
-    path: buildFolder,
-    filename: '[name]_[chunkhash].js',
+    path: outputPath,
     publicPath: '/',
+    filename: 'app_[hash].js',
   },
   module: {
-    preLoaders: [
+    rules: [
       {
         test: /\.jsx?$/,
         exclude: /(node_modules)/,
-        loader: 'eslint-loader',
+        loader: {
+          loader: 'eslint-loader',
+          options: {
+            failOnWarning: false,
+            failOnError: true,
+          },
+        },
+        enforce: 'pre',
       },
-    ],
-    loaders: [
       {
         test: /\.jsx?$/,
         exclude: /node_modules/,
         loader: 'babel-loader',
         query: {
-          presets: ['es2015', 'react'],
+          presets: [['es2015', { modules: false }], 'react'],
+          plugins: ['transform-flow-strip-types'],
           cacheDirectory: true,
         },
       },
       {
         test: /\.css$/,
-        loader: ExtractTextPlugin.extract('style-loader', 'css-loader?modules!postcss-loader'),
+        loader: ExtractTextPlugin.extract({
+          fallbackLoader: 'style-loader',
+          loader: [
+            {
+              loader: 'css-loader',
+              options: {
+                sourceMap: false,
+                modules: true,
+                localIdentName: '[local]__[hash:base64:5]',
+              },
+            },
+            {
+              loader: 'postcss-loader',
+            },
+          ],
+        }),
       },
       {
         test: /.*\.(gif|png|jpe?g|svg)$/i,
-        loaders: [
-          'url-loader?limit=20000',
-          'file-loader?hash=sha512&digest=hex&name=[hash].[ext]',
-          'image-webpack-loader?{optimizationLevel: 7, interlaced: false, pngquant:{quality: "65-90", speed: 4}, mozjpeg: {quality: 65}}',
+        loader: [
+          {
+            loader: 'url-loader',
+            options: {
+              limit: 20000,
+            },
+          },
+          {
+            loader: 'file-loader',
+            options: {
+              hash: 'sha512',
+              digest: 'hex',
+              name: '[hash].[ext]',
+            },
+          },
+          {
+            loader: 'image-webpack-loader',
+            options: {
+              optipng: {
+                optimizationLevel: 7,
+              },
+              gifcicle: {
+                interlaced: false,
+              },
+              pngquant: {
+                quality: '65-90',
+                speed: 4,
+              },
+              mozjpeg: {
+                quality: 65,
+              },
+            },
+          },
         ],
       },
       {
@@ -52,27 +104,34 @@ const webpackConfig = {
     ],
   },
   resolve: {
-    root: [
-      path.resolve('node_modules'),
-      path.resolve('app'),
-    ],
-    extensions: ['', '.js', '.jsx', '.css'],
-    modulesDirectories: [
-      'node_modules',
-    ],
+    extensions: ['.js', '.jsx', '.css'],
+    modules: ['node_modules'],
   },
   plugins: [
-    new CleanPlugin([buildFolder]),
+    new CleanPlugin([outputPath]),
     new webpack.DefinePlugin({
       'process.env': {
         NODE_ENV: JSON.stringify(process.env.NODE_ENV),
       },
     }),
-    new webpack.optimize.DedupePlugin(),
-    new webpack.optimize.OccurrenceOrderPlugin(),
+    new ExtractTextPlugin({
+      filename: 'app_[hash].css',
+      allChunks: true,
+    }),
+    new webpack.optimize.UglifyJsPlugin({
+      compress: {
+        warnings: false,
+      },
+      sourceMap: true,
+    }),
+    new OptimizeCssAssetsPlugin({
+      cssProcessor: cssnano,
+      cssProcessorOptions: { discardComments: { removeAll: true } },
+      canPrint: true,
+    }),
     new HtmlWebpackPlugin({
       inject: true,
-      template: 'app/index.html',
+      template: 'src/index.html',
       minify: {
         removeComments: true,
         collapseWhitespace: true,
@@ -85,18 +144,11 @@ const webpackConfig = {
         minifyCSS: true,
         minifyURLs: true,
       },
-      hash: true,
     }),
-    new ExtractTextPlugin('styles_[hash].css'),
     new webpack.NamedModulesPlugin(),
   ],
-  postcss: [
-    autoprefixer({
-      browsers: ['last 2 versions'],
-    }),
-  ],
   target: 'web',
-  devtool: '#cheap-module-source-map',
+  devtool: 'cheap-module-source-map',
 };
 
 module.exports = webpackConfig;

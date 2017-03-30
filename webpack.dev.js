@@ -1,50 +1,65 @@
+/* eslint import/no-extraneous-dependencies:0 */
 const webpack = require('webpack');
 const path = require('path');
 const CleanPlugin = require('clean-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
-const entry = path.join(process.cwd(), 'app/app.js');
-const buildFolder = path.resolve(__dirname, 'dist');
+const entry = path.join(process.cwd(), 'src/app.jsx');
+const outputPath = path.resolve(__dirname, 'dist');
 const port = 4080;
 
 const webpackConfig = {
-  entry: [
-    `webpack-dev-server/client?http://localhost:${port}`,
-    'webpack/hot/only-dev-server',
-    entry,
-  ],
+  entry: ['react-hot-loader/patch', 'webpack-hot-middleware/client', entry],
   output: {
-    path: buildFolder,
-    filename: '[name].js',
+    path: outputPath,
     publicPath: '/',
+    filename: '[name].js',
   },
   module: {
-    preLoaders: [
+    rules: [
       {
         test: /\.jsx?$/,
-        exclude: /node_modules/,
-        loader: 'eslint-loader',
+        exclude: /(node_modules)/,
+        loader: {
+          loader: 'eslint-loader',
+          options: {
+            failOnWarning: false,
+            failOnError: true,
+          },
+        },
+        enforce: 'pre',
       },
-    ],
-    loaders: [
       {
         test: /\.jsx?$/,
         exclude: /node_modules/,
         loader: 'babel-loader',
         query: {
-          presets: ['es2015', 'react'],
-          cacheDirectory: true,
+          presets: [['es2015', { modules: false }], 'react'],
+          plugins: ['react-hot-loader/babel', 'transform-flow-strip-types'],
         },
       },
       {
         test: /\.css$/,
-        loaders: ['style-loader', 'css-loader?modules&localIdentName=[local]___[hash:base64:5]'],
+        loader: [
+          {
+            loader: 'style-loader',
+          },
+          {
+            loader: 'css-loader',
+            options: {
+              sourceMap: true,
+              modules: true,
+              localIdentName: '[local]__[hash:base64:5]',
+            },
+          },
+          {
+            loader: 'postcss-loader',
+          },
+        ],
       },
       {
         test: /.*\.(gif|png|jpe?g|svg)$/i,
-        loaders: [
-          'file-loader',
-        ],
+        loader: 'file-loader',
       },
       {
         test: /\.html$/,
@@ -53,17 +68,11 @@ const webpackConfig = {
     ],
   },
   resolve: {
-    root: [
-      path.resolve('node_modules'),
-      path.resolve('app'),
-    ],
-    extensions: ['', '.js', '.jsx', '.css'],
-    modulesDirectories: [
-      'node_modules',
-    ],
+    extensions: ['.js', '.jsx', '.css'],
+    modules: ['node_modules'],
   },
   plugins: [
-    new CleanPlugin([buildFolder]),
+    new CleanPlugin([outputPath]),
     new webpack.DefinePlugin({
       'process.env': {
         NODE_ENV: JSON.stringify(process.env.NODE_ENV),
@@ -72,7 +81,7 @@ const webpackConfig = {
     new webpack.HotModuleReplacementPlugin(),
     new HtmlWebpackPlugin({
       inject: true,
-      template: 'app/index.html',
+      template: 'src/index.html',
       minify: {
         removeComments: true,
         collapseWhitespace: true,
@@ -85,21 +94,19 @@ const webpackConfig = {
         minifyCSS: true,
         minifyURLs: true,
       },
-      hash: true,
     }),
     new webpack.NamedModulesPlugin(),
+    new webpack.NoEmitOnErrorsPlugin(),
   ],
-  eslint: {
-    failOnWarning: false,
-    failOnError: true,
-  },
   target: 'web',
-  devtool: '#inline-source-map',
+  devtool: 'inline-source-map',
   devServer: {
-    hot: true,
-    contentBase: buildFolder,
-    publicPath: '/',
+    host: 'localhost',
     port,
+    contentBase: outputPath,
+    publicPath: '/',
+    historyApiFallback: true,
+    hot: true,
   },
 };
 
