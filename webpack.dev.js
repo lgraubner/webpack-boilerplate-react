@@ -20,7 +20,7 @@ const webpackConfig = {
       {
         test: /\.jsx?$/,
         exclude: /(node_modules)/,
-        loader: {
+        use: {
           loader: 'eslint-loader',
           options: {
             failOnWarning: false,
@@ -40,7 +40,7 @@ const webpackConfig = {
       },
       {
         test: /\.css$/,
-        loader: [
+        use: [
           {
             loader: 'style-loader',
           },

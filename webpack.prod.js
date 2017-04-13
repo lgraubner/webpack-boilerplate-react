@@ -22,7 +22,7 @@ const webpackConfig = {
       {
         test: /\.jsx?$/,
         exclude: /(node_modules)/,
-        loader: {
+        use: {
           loader: 'eslint-loader',
           options: {
             failOnWarning: false,
@@ -43,9 +43,9 @@ const webpackConfig = {
       },
       {
         test: /\.css$/,
-        loader: ExtractTextPlugin.extract({
-          fallbackLoader: 'style-loader',
-          loader: [
+        use: ExtractTextPlugin.extract({
+          fallback: 'style-loader',
+          use: [
             {
               loader: 'css-loader',
               options: {
@@ -62,7 +62,7 @@ const webpackConfig = {
       },
       {
         test: /.*\.(gif|png|jpe?g|svg)$/i,
-        loader: [
+        use: [
           {
             loader: 'url-loader',
             options: {
