@@ -61,20 +61,13 @@ const webpackConfig = {
         }),
       },
       {
-        test: /.*\.(gif|png|jpe?g|svg)$/i,
+        test: /.*\.(gif|png|jpe?g)$/i,
         use: [
           {
             loader: 'url-loader',
             options: {
-              limit: 20000,
-            },
-          },
-          {
-            loader: 'file-loader',
-            options: {
-              hash: 'sha512',
-              digest: 'hex',
-              name: '[hash].[ext]',
+              limit: 8000,
+              name: '/images/[name]_[sha512:hash:base64:7].[ext]',
             },
           },
           {
@@ -94,6 +87,21 @@ const webpackConfig = {
                 quality: 65,
               },
             },
+          },
+        ],
+      },
+      {
+        test: /.*\.svg$/i,
+        use: [
+          {
+            loader: 'file-loader',
+            options: {
+              name: '/images/[name]_[sha512:hash:base64:7].[ext]',
+            },
+          },
+          {
+            loader: 'image-webpack-loader',
+            options: {},
           },
         ],
       },
