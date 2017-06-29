@@ -1,4 +1,5 @@
 // @flow
+import 'babel-polyfill';
 import React from 'react';
 import ReactDOM from 'react-dom';
 
@@ -14,5 +15,5 @@ if (module.hot) {
   // $FlowFixMe
   module.hot.accept('./containers/App', () => {
     render(App);
-  })
+  });
 }

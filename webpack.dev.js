@@ -33,10 +33,6 @@ const webpackConfig = {
         test: /\.jsx?$/,
         exclude: /node_modules/,
         loader: 'babel-loader',
-        query: {
-          presets: [['es2015', { modules: false }], 'react'],
-          plugins: ['react-hot-loader/babel', 'transform-flow-strip-types'],
-        },
       },
       {
         test: /\.css$/,
