@@ -8,5 +8,10 @@
     "react-hot-loader/babel",
     "transform-flow-strip-types",
     "transform-runtime"
-  ]
+  ],
+  "env": {
+    "production": {
+      "presets": ["react-optimize"]
+    }
+  }
 }
