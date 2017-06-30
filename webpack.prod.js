@@ -152,6 +152,7 @@ const webpackConfig = {
       },
     }),
     new webpack.NamedModulesPlugin(),
+    new webpack.optimize.ModuleConcatenationPlugin(),
   ],
   target: 'web',
   devtool: 'cheap-module-source-map',

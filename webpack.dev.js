@@ -6,10 +6,9 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 const entry = path.join(process.cwd(), 'src/app.jsx');
 const outputPath = path.resolve(__dirname, 'dist');
-const port = 4080;
 
 const webpackConfig = {
-  entry: ['react-hot-loader/patch', 'webpack-hot-middleware/client', entry],
+  entry: ['react-hot-loader/patch', entry],
   output: {
     path: outputPath,
     publicPath: '/',
@@ -97,8 +96,6 @@ const webpackConfig = {
   target: 'web',
   devtool: 'inline-source-map',
   devServer: {
-    host: 'localhost',
-    port,
     contentBase: outputPath,
     publicPath: '/',
     historyApiFallback: true,
