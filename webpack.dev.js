@@ -8,7 +8,9 @@ const entry = path.join(process.cwd(), 'src/app.jsx');
 const outputPath = path.resolve(__dirname, 'dist');
 
 const webpackConfig = {
-  entry: ['react-hot-loader/patch', entry],
+  entry: {
+    app: ['babel-polyfill', 'react-hot-loader/patch', entry],
+  },
   output: {
     path: outputPath,
     publicPath: '/',
