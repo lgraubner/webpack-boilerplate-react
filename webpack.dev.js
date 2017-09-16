@@ -9,7 +9,7 @@ const outputPath = path.resolve(__dirname, 'dist');
 
 const webpackConfig = {
   entry: {
-    app: ['babel-polyfill', 'react-hot-loader/patch', entry],
+    app: ['react-hot-loader/patch', entry],
   },
   output: {
     path: outputPath,
