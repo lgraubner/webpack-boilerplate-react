@@ -3,9 +3,6 @@ const webpack = require('webpack');
 const path = require('path');
 const CleanPlugin = require('clean-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
-const cssnano = require('cssnano');
 
 const entry = path.join(process.cwd(), 'src/app.jsx');
 const outputPath = path.resolve(__dirname, 'dist');
@@ -41,33 +38,12 @@ const webpackConfig = {
       },
       {
         test: /\.css$/,
-        use: ExtractTextPlugin.extract({
-          fallback: 'style-loader',
-          use: [
-            {
-              loader: 'css-loader',
-              options: {
-                sourceMap: false,
-                modules: true,
-                localIdentName: '[local]__[hash:base64:5]',
-              },
-            },
-            {
-              loader: 'postcss-loader',
-            },
-          ],
-        }),
+        use: ['style-loader', 'css-loader'],
       },
       {
-        test: /.*\.(gif|png|jpe?g)$/i,
+        test: /.*\.(jpe?g|png|gif)$/i,
         use: [
-          {
-            loader: 'url-loader',
-            options: {
-              limit: 8000,
-              name: '/images/[name]_[sha512:hash:base64:7].[ext]',
-            },
-          },
+          'file-loader',
           {
             loader: 'image-webpack-loader',
             options: {
@@ -90,18 +66,7 @@ const webpackConfig = {
       },
       {
         test: /.*\.svg$/i,
-        use: [
-          {
-            loader: 'file-loader',
-            options: {
-              name: '/images/[name]_[sha512:hash:base64:7].[ext]',
-            },
-          },
-          {
-            loader: 'image-webpack-loader',
-            options: {},
-          },
-        ],
+        use: 'file-loader',
       },
       {
         test: /\.html$/,
@@ -120,20 +85,11 @@ const webpackConfig = {
         NODE_ENV: JSON.stringify(process.env.NODE_ENV),
       },
     }),
-    new ExtractTextPlugin({
-      filename: 'app_[hash].css',
-      allChunks: true,
-    }),
     new webpack.optimize.UglifyJsPlugin({
       compress: {
         warnings: false,
       },
       sourceMap: true,
-    }),
-    new OptimizeCssAssetsPlugin({
-      cssProcessor: cssnano,
-      cssProcessorOptions: { discardComments: { removeAll: true } },
-      canPrint: true,
     }),
     new HtmlWebpackPlugin({
       inject: true,

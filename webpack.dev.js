@@ -37,22 +37,7 @@ const webpackConfig = {
       },
       {
         test: /\.css$/,
-        use: [
-          {
-            loader: 'style-loader',
-          },
-          {
-            loader: 'css-loader',
-            options: {
-              sourceMap: true,
-              modules: true,
-              localIdentName: '[local]__[hash:base64:5]',
-            },
-          },
-          {
-            loader: 'postcss-loader',
-          },
-        ],
+        use: ['style-loader', 'css-loader'],
       },
       {
         test: /.*\.(gif|png|jpe?g|svg)$/i,

@@ -1,11 +1,19 @@
 import React from 'react';
+import Helmet from 'react-helmet';
+import Aux from 'react-aux';
+import PropTypes from 'prop-types';
 
-import styles from './styles.css';
-
-const App = () => (
-  <div className={styles.app}>
-    Hello World!
-  </div>
+const App = ({ children }) => (
+  <Aux>
+    <Helmet>
+      <title>My app</title>
+    </Helmet>
+    {children}
+  </Aux>
 );
+
+App.propTypes = {
+  children: PropTypes.node.isRequired,
+};
 
 export default App;

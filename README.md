@@ -33,3 +33,8 @@ yarn dev
 To create a production bundle run `yarn build` which will generate the files in the `dist` folder. Serve them with nginx or any other appropriate Server.
 
 To test your application run `yarn run lint` and `yarn run flow`.
+
+
+TODO:
+- Offline Plugin
+- Server side rendering
