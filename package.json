@@ -45,7 +45,7 @@
     "webpack-dev-server": "2.9.3"
   },
   "scripts": {
-    "lint": "eslint --ext .js,.jsx .",
+    "lint": "eslint --ext .js .",
     "precommit": "lint-staged",
     "dev": "cross-env NODE_ENV=development webpack-dev-server --config webpack.dev.js --progress",
     "build": "cross-env NODE_ENV=production webpack --config webpack.prod.js --progress",

@@ -1,5 +1,5 @@
-import React from 'react';
-import Helmet from 'react-helmet';
+import React from 'react'
+import Helmet from 'react-helmet'
 
 const About = () => (
   <div>
@@ -8,6 +8,6 @@ const About = () => (
     </Helmet>
     About
   </div>
-);
+)
 
-export default About;
+export default About

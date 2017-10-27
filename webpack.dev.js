@@ -4,7 +4,7 @@ const path = require('path')
 const CleanPlugin = require('clean-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 
-const entry = path.join(process.cwd(), 'src/app.jsx')
+const entry = path.join(process.cwd(), 'src/app.js')
 const outputPath = path.resolve(__dirname, 'dist')
 
 const webpackConfig = {
@@ -19,7 +19,7 @@ const webpackConfig = {
   module: {
     rules: [
       {
-        test: /\.jsx?$/,
+        test: /\.js$/,
         exclude: /(node_modules)/,
         use: {
           loader: 'eslint-loader',
@@ -31,7 +31,7 @@ const webpackConfig = {
         enforce: 'pre'
       },
       {
-        test: /\.jsx?$/,
+        test: /\.js$/,
         exclude: /node_modules/,
         loader: 'babel-loader'
       },
@@ -50,7 +50,7 @@ const webpackConfig = {
     ]
   },
   resolve: {
-    extensions: ['.js', '.jsx', '.css'],
+    extensions: ['.js', '.css'],
     modules: ['node_modules']
   },
   plugins: [

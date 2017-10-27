@@ -1,11 +1,11 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import Helmet from 'react-helmet';
-import styled from 'styled-components';
+import React from 'react'
+import { Link } from 'react-router-dom'
+import Helmet from 'react-helmet'
+import styled from 'styled-components'
 
 const AboutButton = styled.div`
   background-color: red;
-`;
+`
 
 const Home = () => (
   <div>
@@ -17,6 +17,6 @@ const Home = () => (
       <Link to="/about">About</Link>
     </AboutButton>
   </div>
-);
+)
 
-export default Home;
+export default Home
