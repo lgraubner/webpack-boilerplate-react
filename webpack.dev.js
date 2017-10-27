@@ -1,20 +1,20 @@
 /* eslint import/no-extraneous-dependencies:0 */
-const webpack = require('webpack');
-const path = require('path');
-const CleanPlugin = require('clean-webpack-plugin');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
+const webpack = require('webpack')
+const path = require('path')
+const CleanPlugin = require('clean-webpack-plugin')
+const HtmlWebpackPlugin = require('html-webpack-plugin')
 
-const entry = path.join(process.cwd(), 'src/app.jsx');
-const outputPath = path.resolve(__dirname, 'dist');
+const entry = path.join(process.cwd(), 'src/app.jsx')
+const outputPath = path.resolve(__dirname, 'dist')
 
 const webpackConfig = {
   entry: {
-    app: ['react-hot-loader/patch', entry],
+    app: ['react-hot-loader/patch', entry]
   },
   output: {
     path: outputPath,
     publicPath: '/',
-    filename: '[name].js',
+    filename: '[name].js'
   },
   module: {
     rules: [
@@ -25,40 +25,40 @@ const webpackConfig = {
           loader: 'eslint-loader',
           options: {
             failOnWarning: false,
-            failOnError: true,
-          },
+            failOnError: true
+          }
         },
-        enforce: 'pre',
+        enforce: 'pre'
       },
       {
         test: /\.jsx?$/,
         exclude: /node_modules/,
-        loader: 'babel-loader',
+        loader: 'babel-loader'
       },
       {
         test: /\.css$/,
-        use: ['style-loader', 'css-loader'],
+        use: ['style-loader', 'css-loader']
       },
       {
-        test: /.*\.(gif|png|jpe?g|svg)$/i,
-        loader: 'file-loader',
+        test: /\.(gif|png|jpe?g|eot|svg|otf|ttf|woff|woff2)$/i,
+        loader: 'file-loader'
       },
       {
         test: /\.html$/,
-        loader: 'html-loader',
-      },
-    ],
+        loader: 'html-loader'
+      }
+    ]
   },
   resolve: {
     extensions: ['.js', '.jsx', '.css'],
-    modules: ['node_modules'],
+    modules: ['node_modules']
   },
   plugins: [
     new CleanPlugin([outputPath]),
     new webpack.DefinePlugin({
       'process.env': {
-        NODE_ENV: JSON.stringify(process.env.NODE_ENV),
-      },
+        NODE_ENV: JSON.stringify(process.env.NODE_ENV)
+      }
     }),
     new webpack.HotModuleReplacementPlugin(),
     new HtmlWebpackPlugin({
@@ -74,11 +74,11 @@ const webpackConfig = {
         keepClosingSlash: true,
         minifyJS: true,
         minifyCSS: true,
-        minifyURLs: true,
-      },
+        minifyURLs: true
+      }
     }),
     new webpack.NamedModulesPlugin(),
-    new webpack.NoEmitOnErrorsPlugin(),
+    new webpack.NoEmitOnErrorsPlugin()
   ],
   target: 'web',
   devtool: 'inline-source-map',
@@ -86,8 +86,8 @@ const webpackConfig = {
     contentBase: outputPath,
     publicPath: '/',
     historyApiFallback: true,
-    hot: true,
-  },
-};
+    hot: true
+  }
+}
 
-module.exports = webpackConfig;
+module.exports = webpackConfig

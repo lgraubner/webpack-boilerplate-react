@@ -1,18 +1,18 @@
 /* eslint import/no-extraneous-dependencies:0 */
-const webpack = require('webpack');
-const path = require('path');
-const CleanPlugin = require('clean-webpack-plugin');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
+const webpack = require('webpack')
+const path = require('path')
+const CleanPlugin = require('clean-webpack-plugin')
+const HtmlWebpackPlugin = require('html-webpack-plugin')
 
-const entry = path.join(process.cwd(), 'src/app.jsx');
-const outputPath = path.resolve(__dirname, 'dist');
+const entry = path.join(process.cwd(), 'src/app.jsx')
+const outputPath = path.resolve(__dirname, 'dist')
 
 const webpackConfig = {
   entry,
   output: {
     path: outputPath,
     publicPath: '/',
-    filename: 'app_[hash].js',
+    filename: 'app_[hash].js'
   },
   module: {
     rules: [
@@ -23,73 +23,73 @@ const webpackConfig = {
           loader: 'eslint-loader',
           options: {
             failOnWarning: false,
-            failOnError: true,
-          },
+            failOnError: true
+          }
         },
-        enforce: 'pre',
+        enforce: 'pre'
       },
       {
         test: /\.jsx?$/,
         exclude: /node_modules/,
         loader: 'babel-loader',
         query: {
-          cacheDirectory: true,
-        },
+          cacheDirectory: true
+        }
       },
       {
         test: /\.css$/,
-        use: ['style-loader', 'css-loader'],
+        use: ['style-loader', 'css-loader']
       },
       {
-        test: /.*\.(jpe?g|png|gif)$/i,
+        test: /\.(jpe?g|png|gif)$/i,
         use: [
           'file-loader',
           {
             loader: 'image-webpack-loader',
             options: {
               optipng: {
-                optimizationLevel: 7,
+                optimizationLevel: 7
               },
               gifcicle: {
-                interlaced: false,
+                interlaced: false
               },
               pngquant: {
                 quality: '65-90',
-                speed: 4,
+                speed: 4
               },
               mozjpeg: {
-                quality: 65,
-              },
-            },
-          },
-        ],
+                quality: 65
+              }
+            }
+          }
+        ]
       },
       {
-        test: /.*\.svg$/i,
-        use: 'file-loader',
+        test: /\.(eot|svg|otf|ttf|woff|woff2)$/i,
+        use: 'file-loader'
       },
       {
         test: /\.html$/,
-        loader: 'html-loader',
-      },
-    ],
+        loader: 'html-loader'
+      }
+    ]
   },
   resolve: {
     extensions: ['.js', '.jsx', '.css'],
-    modules: ['node_modules'],
+    modules: ['node_modules']
   },
   plugins: [
     new CleanPlugin([outputPath]),
     new webpack.DefinePlugin({
       'process.env': {
-        NODE_ENV: JSON.stringify(process.env.NODE_ENV),
-      },
+        NODE_ENV: JSON.stringify(process.env.NODE_ENV)
+      }
     }),
     new webpack.optimize.UglifyJsPlugin({
       compress: {
-        warnings: false,
+        warnings: false
       },
-      sourceMap: true,
+      sourceMap: true
     }),
     new HtmlWebpackPlugin({
       inject: true,
@@ -104,14 +104,14 @@ const webpackConfig = {
         keepClosingSlash: true,
         minifyJS: true,
         minifyCSS: true,
-        minifyURLs: true,
-      },
+        minifyURLs: true
+      }
     }),
     new webpack.NamedModulesPlugin(),
-    new webpack.optimize.ModuleConcatenationPlugin(),
+    new webpack.optimize.ModuleConcatenationPlugin()
   ],
   target: 'web',
-  devtool: 'cheap-module-source-map',
-};
+  devtool: 'cheap-module-source-map'
+}
 
-module.exports = webpackConfig;
+module.exports = webpackConfig

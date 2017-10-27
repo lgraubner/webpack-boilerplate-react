@@ -1,14 +1,15 @@
 module.exports = {
+  root: true,
   parser: 'babel-eslint',
+  extends: ['airbnb', 'prettier', 'prettier/flowtype', 'prettier/react'],
   plugins: ['flowtype'],
-  extends: ['airbnb', 'prettier'],
   env: {
     browser: true,
     node: true,
-    jest: true,
+    jest: true
   },
   rules: {
-    'import/extensions': 0,
-    'jsx-a11y/anchor-is-valid': 0,
-  },
-};
+    'react/prop-types': 0,
+    'react/jsx-filename-extension': 0
+  }
+}
